@@ -10,12 +10,16 @@
   <body>
     <h1>Github tutorial</h1>
     <button id="btnRepos">Repos</button>
+    <button id="btnIssues">Issues</button>
     <div id="divResult"></div>
 
     <script>
       const btnRepos = document.getElementById("btnRepos");
+      const btnIssues = document.getElementById("btnIssues");
       const divResult = document.getElementById("divResult");
       btnRepos.addEventListener("click", getRepos);
+      btnIssues.addEventListener("click", getIssues);
+
       async function getRepos() {
         clear();
         //alert("test"); // when click to button, it gives alert 'test'
@@ -28,6 +32,23 @@
           const anchor = document.createElement("a");
           anchor.href = i.html_url;
           anchor.textContent = i.full_name;
+          divResult.appendChild(anchor);
+          divResult.appendChild(document.createElement("br"));
+        });
+      }
+
+      async function getIssues() {
+        clear();
+        //alert("test"); // when click to button, it gives alert 'test'
+        const url =
+          "http://api.github.com/search/issues?q=author:raisedadead repo:freecodecamp/freecodecamp type:issue";
+        const response = await fetch(url);
+        const result = await response.json();
+
+        result.items.forEach(i => {
+          const anchor = document.createElement("a");
+          anchor.href = i.html_url;
+          anchor.textContent = i.title;
           divResult.appendChild(anchor);
           divResult.appendChild(document.createElement("br"));
         });
