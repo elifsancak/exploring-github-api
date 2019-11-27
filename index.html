@@ -8,7 +8,37 @@
   </head>
 
   <body>
+    <h1>Github tutorial</h1>
+    <button id="btnRepos">Repos</button>
+    <div id="divResult"></div>
 
-    
+    <script>
+      const btnRepos = document.getElementById("btnRepos");
+      const divResult = document.getElementById("divResult");
+      btnRepos.addEventListener("click", getRepos);
+      async function getRepos() {
+        clear();
+        //alert("test"); // when click to button, it gives alert 'test'
+        const url =
+          "http://api.github.com/search/repositories?q=stars:150000..300000";
+        const response = await fetch(url);
+        const result = await response.json();
+
+        result.items.forEach(i => {
+          const anchor = document.createElement("a");
+          anchor.href = i.html_url;
+          anchor.textContent = i.full_name;
+          divResult.appendChild(anchor);
+          divResult.appendChild(document.createElement("br"));
+        });
+      }
+
+      function clear() {
+        while (
+          divResult.firstChild // when click to button, link sees one time on the screen
+        )
+          divResult.removeChild(divResult.firstChild);
+      }
+    </script>
   </body>
 </html>
